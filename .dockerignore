@@ -1,0 +1,6 @@
+.git
+.gradle
+.kotlin
+build
+data
+.env

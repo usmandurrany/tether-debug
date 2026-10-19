@@ -1,0 +1,32 @@
+# docker compose up -d   (after copying .env.example to .env and filling it in)
+services:
+  portal:
+    build: .
+    image: tether-debug-portal
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${TETHER_DEBUG_BIND:-127.0.0.1}:8080:8080"
+    volumes:
+      - tether-debug-data:/data
+
+  # Optional HTTPS with automatic certificates. Set TETHER_DEBUG_DOMAIN in .env,
+  # point the domain's DNS at this host, then: docker compose --profile https up -d
+  caddy:
+    profiles: ["https"]
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      TETHER_DEBUG_DOMAIN: ${TETHER_DEBUG_DOMAIN:-}
+    command: caddy reverse-proxy --from ${TETHER_DEBUG_DOMAIN:-localhost} --to portal:8080
+    volumes:
+      - caddy-data:/data
+    depends_on:
+      - portal
+
+volumes:
+  tether-debug-data:
+  caddy-data:
