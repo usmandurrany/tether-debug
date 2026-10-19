@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tether Debug</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <h1>Tether Debug</h1>
+  <label class="field">Round
+    <select id="label"><option value="">All rounds</option></select>
+  </label>
+  <button id="live" class="live" type="button" aria-pressed="true"><span class="dot"></span><span id="live-text">Live</span></button>
+</header>
+
+<div class="layout">
+  <aside class="side">
+    <div class="side-head">
+      <h2>Devices</h2>
+      <button id="all-devices" type="button" class="link">Show all</button>
+    </div>
+    <ul id="devices" class="devices"></ul>
+    <div id="sessions-box" hidden>
+      <h2>Sessions</h2>
+      <ul id="sessions" class="sessions"></ul>
+    </div>
+  </aside>
+
+  <main class="main">
+    <form id="filters" class="filters" autocomplete="off">
+      <input id="f-q" type="search" placeholder="Search XML and messages">
+      <input id="f-account" type="text" placeholder="Account (bare or full JID)">
+      <select id="f-dir">
+        <option value="">Both directions</option>
+        <option value="out">Sent</option>
+        <option value="in">Received</option>
+      </select>
+      <select id="f-kind">
+        <option value="">All kinds</option>
+        <option value="message">message</option>
+        <option value="presence">presence</option>
+        <option value="iq">iq</option>
+        <option value="stream">stream</option>
+        <option value="event">events (not XML)</option>
+      </select>
+      <select id="f-level">
+        <option value="">Any level</option>
+        <option value="debug">debug and up</option>
+        <option value="info">info and up</option>
+        <option value="warn">warn and up</option>
+        <option value="error">error</option>
+      </select>
+      <button id="f-reset" type="button" class="link">Reset</button>
+    </form>
+    <div id="context" class="context"></div>
+    <ol id="entries" class="entries"></ol>
+    <div class="more"><button id="older" type="button">Load older</button><span id="status"></span></div>
+  </main>
+</div>
+
+<template id="entry-tpl">
+  <li class="entry">
+    <button class="row" type="button">
+      <time class="ts"></time>
+      <span class="dev"></span>
+      <span class="acct"></span>
+      <span class="dir"></span>
+      <span class="kind"></span>
+      <span class="sum"></span>
+    </button>
+    <div class="detail" hidden>
+      <div class="actions"><button type="button" class="copy">Copy</button></div>
+      <div class="meta"></div>
+      <pre class="xml"></pre>
+    </div>
+  </li>
+</template>
+</body>
+</html>
